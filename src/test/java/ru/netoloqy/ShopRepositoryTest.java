@@ -14,7 +14,7 @@ public class ShopRepositoryTest {
         repo.add(product1);
         repo.add(product2);
         repo.add(product3);
-        repo.remove(20);
+        repo.removeById(20);
 
         Product[] actual = repo.findAll();
         Product[] expected = {product1, product3};
@@ -32,7 +32,7 @@ public class ShopRepositoryTest {
         repo.add(product2);
         repo.add(product3);
 
-        Assertions.assertThrows(NotFoundException.class, () -> repo.remove(40)
+        Assertions.assertThrows(NotFoundException.class, () -> repo.removeById(40)
         );
     }
 
@@ -42,28 +42,30 @@ public class ShopRepositoryTest {
         Product product1 = new Product(10, "книга1", 1_000);
         Product product2 = new Product(20, "книга2", 20_000);
         Product product3 = new Product(30, "книга3", 30_000_000);
+        Product product4 = new Product(40, "книга4", 999);
+
+        repo.add(product1);
+        repo.add(product2);
+        repo.add(product3);
+        repo.add(product4);
+
+        Product[] actual = repo.findAll();
+        Product[] expected = {product1, product2, product3, product4};
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldExceptionAddWhenProductExist() {
+        ShopRepository repo = new ShopRepository();
+        Product product1 = new Product(10, "книга1", 1_000);
+        Product product2 = new Product(20, "книга2", 20_000);
+        Product product3 = new Product(30, "книга3", 30_000_000);
 
         repo.add(product1);
         repo.add(product2);
         repo.add(product3);
 
-        Product[] actual = repo.findAll();
-        Product[] expected = {product1, product2, product3};
-        Assertions.assertArrayEquals(expected, actual);
+        Assertions.assertThrows(AlreadyExistsException.class, () -> repo.addExistId(product1)
+        );
     }
-
-//    @Test
-//    public void shouldExceptionAddWhenProductExist() {
-//        ShopRepository repo = new ShopRepository();
-//        Product product1 = new Product(10, "книга1", 1_000);
-//        Product product2 = new Product(20, "книга2", 20_000);
-//        Product product3 = new Product(30, "книга3", 30_000_000);
-//
-//        repo.add(product1);
-//        repo.add(product2);
-//        repo.add(product3);
-//
-//        Assertions.assertThrows(AlreadyExistsException.class, () -> repo.add(product1)
-//        );
-//    }
 }

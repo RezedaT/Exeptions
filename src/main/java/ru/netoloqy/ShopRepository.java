@@ -1,7 +1,5 @@
 package ru.netoloqy;
 
-import java.util.Arrays;
-
 public class ShopRepository {
     private Product[] products = new Product[0];
 
@@ -25,20 +23,46 @@ public class ShopRepository {
      * Метод добавления товара в репозиторий
      * @param product — добавляемый товар
      */
-     public void add(Product product) {
+    public void add(Product product) {
     products = addToArray(products, product);
     }
+
+
     public Product[] findAll() {
     return products;
     }
 
     // Этот способ мы рассматривали в теории в теме про композицию
-    public void remove(int id) {
-        Product removingProduct = findById(id);
-        if (removingProduct == null) {
+//    public void remove(int id) {
+//        Product removingProduct = findById(id);
+//        if (removingProduct == null) {
+//            throw new NotFoundException(id);
+//        }
+//
+//        Product[] tmp = new Product[products.length - 1];
+//        int copyToIndex = 0;
+//        for (Product product : products) {
+//            if (product.getId() != id) {
+//                tmp[copyToIndex] = product;
+//                copyToIndex++;
+//            }
+//        }
+//        products = tmp;
+//    }
+    private Product findById(int id) {
+
+        for (Product product : products) {
+            if (product.getId() == id) {
+                return product;
+            }
+        }
+        return null;
+    }
+
+    public void removeById(int id) {
+        if (findById(id) == null) {
             throw new NotFoundException(id);
         }
-
         Product[] tmp = new Product[products.length - 1];
         int copyToIndex = 0;
         for (Product product : products) {
@@ -49,13 +73,11 @@ public class ShopRepository {
         }
         products = tmp;
     }
-    private Product findById(int id) {
 
-        for (Product product : products) {
-            if (product.getId() == id) {
-                return product;
-            }
+    public void addExistId(Product product) {
+        if (findById(product.getId()) != null) {
+            throw new AlreadyExistsException(product.getId());
         }
-        return null;
     }
 }
+
