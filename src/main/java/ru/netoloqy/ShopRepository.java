@@ -1,4 +1,4 @@
-package ru.netology;
+package ru.netoloqy;
 
 import ru.netoloqy.AlreadyExistsException;
 import ru.netoloqy.NotFoundException;
