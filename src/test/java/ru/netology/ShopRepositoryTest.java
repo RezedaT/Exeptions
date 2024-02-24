@@ -1,6 +1,9 @@
-package ru.netoloqy;
+package ru.netology;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ru.netoloqy.AlreadyExistsException;
+import ru.netoloqy.NotFoundException;
+import ru.netoloqy.Product;
 
 public class ShopRepositoryTest {
 
@@ -65,7 +68,7 @@ public class ShopRepositoryTest {
         repo.add(product2);
         repo.add(product3);
 
-        Assertions.assertThrows(AlreadyExistsException.class, () -> repo.addExistId(product1)
+        Assertions.assertThrows(AlreadyExistsException.class, () -> repo.add(product1)
         );
     }
 }
